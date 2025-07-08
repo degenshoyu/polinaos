@@ -1,0 +1,58 @@
+import Image from "next/image";
+import Link from "next/link";
+import { Home, BookText, Rocket, Users, PanelTop } from "lucide-react";
+
+export default function Navbar() {
+  return (
+    <header className="flex justify-center px-4 py-6 sticky top-0 z-50 bg-transparent">
+      <div className="flex items-center justify-between w-full max-w-6xl bg-white/10 backdrop-blur-md shadow-md px-6 py-3 rounded-full">
+        {/* Logo + Title */}
+        <div className="flex items-center space-x-3">
+          <Image
+            src="/logo-polina.png"
+            alt="PolinaOS Logo"
+            width={40}
+            height={40}
+            className="rounded-full"
+          />
+          <span className="text-white font-bold text-xl font-sora">
+            PolinaOS
+          </span>
+        </div>
+
+        {/* Nav items (hidden on mobile) */}
+        <nav className="hidden md:flex items-center space-x-6">
+          <NavItem href="/" label="Home" />
+          <NavItem href="/docs" label="Docs" />
+          <NavItem href="/use-cases" label="Use Cases" />
+          <NavItem href="/onboard" label="Onboard" />
+          <NavItem href="/dashboard" label="Dashboard" />
+        </nav>
+
+        {/* CTA Button + Mobile Toggle */}
+        <div className="flex items-center space-x-4">
+          <a
+            href="#join"
+            className="px-5 py-2 bg-[#27a567] hover:bg-[#239e5d] text-white text-sm rounded-full shadow-md transition"
+          >
+            Join Whitelist
+          </a>
+          {/* Future: <MobileMenuToggle /> */}
+        </div>
+      </div>
+    </header>
+  );
+}
+
+// 抽离出来的小组件 NavItem
+function NavItem({ href, label, icon }) {
+  return (
+    <Link
+      href={href}
+      className="flex items-center space-x-2 text-white/90 hover:text-white transition text-sm"
+    >
+      {icon}
+      <span>{label}</span>
+    </Link>
+  );
+}
