@@ -28,10 +28,13 @@ export default async function handler(req, res) {
     const start = new Date();
     start.setDate(today.getDate() - 7);
 
+    const end = new Date(today);
+    end.setDate(today.getDate() + 1);
+
     const body = {
       keyword: keywords,
       start_date: start.toISOString().split("T")[0],
-      end_date: today.toISOString().split("T")[0],
+      end_date: end.toISOString().split("T")[0],
       max_tweets: 30,
       min_faves: 2,
     };
