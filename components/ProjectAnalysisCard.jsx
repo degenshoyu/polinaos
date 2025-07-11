@@ -11,7 +11,14 @@ export default function ProjectAnalysisCard({ onTweetCountUpdate, onAnalysisResu
     {
       sender: "Polina",
       time: null,
-      text: "👋 Hi, I’m Polina. I’ll help you analyze your project's Twitter presence over the last 7 days. Please fill in the information below and click send."
+      text: `👋 Hi, I’m Polina – your assistant for understanding how your project is performing on Twitter.
+
+  I'll guide you through the whole process:
+  1. Fetch the most recent 30 tweets that mention your project.
+  2. Use AI to summarize the content, tone and trends.
+  3. (Coming soon) Generate tailored community tasks and track engagement.
+
+  ✨ Most features are still under development. For now, I can help you analyze up to 30 tweets. Want full access? Join the waitlist!`
     }
   ]);
   const [jobId, setJobId] = useState(null);
@@ -148,10 +155,13 @@ export default function ProjectAnalysisCard({ onTweetCountUpdate, onAnalysisResu
   };
 
   return (
-    <div className="p-6 w-full max-w-3xl min-h-[640px] rounded-2xl shadow-xl bg-gradient-to-br from-[#0f0f0f] via-[#1a1a1a] to-[#111827] flex flex-col">
-      <h2 className="text-sm text-gray-400 tracking-wider uppercase border-white/10 pb-2 mb-3">Twitter Presence Analysis</h2>
+    <div className="p-6 w-full max-w-3xl min-h-[640px] rounded-2xl shadow-2xl bg-gradient-to-br from-[#101c1b] via-[#0c1111] to-[#0a0f0e] flex flex-col border border-white/5 backdrop-blur-sm">
+      <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-[#2fd480] via-[#3ef2ac] to-[#27a567] text-transparent bg-clip-text drop-shadow-sm">
+        Polina Assistant Console
+      </h2>
 
-      <div ref={containerRef} className="px-4 py-3 space-y-4 text-sm h-[360px] overflow-y-auto border-y border-white/10">
+      {/* message log */}
+      <div ref={containerRef} className="px-4 py-3 space-y-4 text-sm h-[360px] overflow-y-auto border-t border-white/10">
         {messages.map((msg, idx) => (
           <div key={idx} className="flex items-start gap-3">
             <Image src={polinaIcon} alt="Polina" width={28} height={28} className="rounded-full" />
@@ -163,6 +173,27 @@ export default function ProjectAnalysisCard({ onTweetCountUpdate, onAnalysisResu
         ))}
       </div>
 
+      {/* Tabs */}
+<div className="flex gap-3 mb-4">
+  {["Basic Info", "Task Goals", "Upcoming Events", "Audience & Strategy"].map((tab, idx) => (
+    <button
+      key={tab}
+      className={`text-sm px-3 py-2 rounded-t-md border border-white/10 ${
+        idx === 0
+          ? "bg-[#0f1b17] text-white border-b-0"
+          : "text-gray-500 bg-transparent cursor-not-allowed border-b"
+      }`}
+      disabled={idx !== 0}
+    >
+      {tab}
+      {idx !== 0 && (
+        <span className="ml-2 text-yellow-400 text-[10px]">🔒</span>
+      )}
+    </button>
+  ))}
+</div>
+
+      {/* input fields */}
       <div className="mt-auto pt-4 space-y-3">
         <div className="flex gap-2">
           <input className="flex-1 px-3 py-2 bg-[#0d0d0d] border border-[#333] focus:ring-2 focus:ring-[#64e3a1] rounded-md text-white placeholder:text-gray-500 text-sm" placeholder="Project name" value={projectName} onChange={(e) => setProjectName(e.target.value)} />

@@ -15,6 +15,8 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap"
           rel="stylesheet"
         />
+        {/* ✅ Favicon */}
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <body className="bg-black text-white">
         <Main />

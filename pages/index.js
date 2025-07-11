@@ -117,9 +117,12 @@ export default function HomePage() {
               shill scout, protocol poet, memelord, or DAO alchemist — this
               space is yours to co-create.
             </p>
-            <div className="inline-flex items-center justify-center rounded-full bg-[#27a567] hover:bg-[#239e5d] text-white font-semibold px-8 py-4 transition shadow-lg cursor-not-allowed opacity-80 text-base">
-              Early Access Opening Soon
-            </div>
+            <a
+              onClick={() => setShowWaitlist(true)}
+              className="inline-flex items-center justify-center rounded-full bg-[#27a567] hover:bg-[#239e5d] text-white font-semibold px-8 py-4 transition shadow-lg cursor-pointer text-base"
+            >
+              Join Waitlist
+            </a>
           </div>
 
           {/* Polina image block */}

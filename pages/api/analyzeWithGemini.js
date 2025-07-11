@@ -12,19 +12,43 @@ export default async function handler(req, res) {
     .map((t, idx) => `(${idx + 1}) ${t.textContent}`)
     .join("\n");
 
-  const prompt = `
-You are an AI assistant helping a project researcher understand how a crypto token is discussed on Twitter.
+  const prompt = String.raw`
+You are an AI assistant helping a crypto project researcher understand how a specific token is being discussed on Twitter.
 
-Please:
-- Summarize what this project is about.
-- Assess how active and enthusiastic the community is.
-- Evaluate clarity of content.
-- Comment on virality patterns (memes, giveaways, shoutouts, etc.)
-- Provide numeric scores (1–10) for:
-  - Community Involvement
-  - Content Clarity
-  - Virality Potential
-- Finally, list key themes found in these tweets.
+Important Instructions:
+- The analysis must focus **only on the project that is mentioned repeatedly or directly**, based on the keywords submitted (e.g. "Moodeng" or a specific token address).
+- Do not include or speculate about other unrelated tokens, even if mentioned.
+- If multiple tokens are mentioned in a tweet, only include them **if they are directly connected to the main project**.
+- Ignore misleading or irrelevant mentions like meme coins that aren't core to the project.
+
+💡 Formatting Instructions:
+Please use **Markdown headings** to structure your output clearly. Each section must be preceded by a third-level heading (\`\`\`### Section Title\`\`\`). Do not include any general summary at the top.
+
+### Example Format:
+
+### Project Overview
+...
+
+### Community Activity
+...
+
+### Content Quality
+...
+
+### Virality Potential
+...
+
+### Scores
+- Community Involvement: 8
+- Content Clarity: 7
+- Virality Potential: 9
+
+### Key Themes
+- Meme culture
+- Pump.fun mentions
+- Anniversary campaigns
+
+📊 Now please analyze the following tweets and respond in the above format:
 
 Tweets to analyze:
 ${tweetLines}

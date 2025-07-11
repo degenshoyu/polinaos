@@ -81,16 +81,6 @@ export default function MobileMenu({ active = "", onWaitlistClick }) {
                   ),
                 )}
               </nav>
-
-              <button
-                onClick={() => {
-                  setIsOpen(false);
-                  onWaitlistClick?.();
-                }}
-                className="block mt-8 bg-[#27a567] hover:bg-[#239e5d] text-white text-center font-semibold py-3 rounded-full shadow-md transition w-full"
-              >
-                Join Whitelist
-              </button>
             </Dialog.Panel>
           </Transition.Child>
         </Dialog>

@@ -19,13 +19,13 @@ export default function NavLinks({ active = "" }) {
           <Link
             key={label}
             href={href}
-            className={`text-sm transition hover:text-white ${
+            className={`text-sm transition hover:text-[#27a567] ${
               active === href ? "text-white font-semibold" : "text-white/80"
             }`}
           >
             {label}
           </Link>
-        )
+                 )
       )}
     </>
   );

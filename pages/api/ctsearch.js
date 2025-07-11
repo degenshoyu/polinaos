@@ -32,11 +32,11 @@ export default async function handler(req, res) {
       keyword: keywords,
       start_date: start.toISOString().split("T")[0],
       end_date: today.toISOString().split("T")[0],
-      mode: "shiller",
+      max_tweets: 30,
       min_faves: 2,
     };
 
-    const response = await fetch(`${BASE_URL}/search`, {
+    const response = await fetch(`${BASE_URL}/search/max`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${BEARER}`,
@@ -54,7 +54,6 @@ export default async function handler(req, res) {
 
     write(`✅ Job started: ${data.job_id}`);
 
-    // 可选：轮询 job_id 获取结果（或前端请求另一个 job 查询接口）
     write(`📦 Job submitted. You can now begin AI analysis.`);
 
     res.end();
