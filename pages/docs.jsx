@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Head from "next/head";
 import Navbar from "../components/Navbar";
 import WaitlistModal from "../components/WaitlistModal";
 import ReactMarkdown from "react-markdown";
@@ -142,6 +143,19 @@ export default function DocsPage() {
   const [showWaitlist, setShowWaitlist] = useState(false);
 
   return (
+    <>
+      <Head>
+        <title>Docs | PolinaOS</title>
+          <meta name="description" content="Learn how PolinaOS works — its architecture, modules, timeline, and ecosystem vision." />
+          <meta property="og:title" content="Docs | PolinaOS" />
+          <meta property="og:description" content="Explore the docs for PolinaOS: AI-powered coordination engine for Web3." />
+          <meta property="og:image" content="https://polinaos.com/polina-og.png" />
+          <meta property="og:url" content="https://polinaos.com/docs" />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="Docs | PolinaOS" />
+          <meta name="twitter:description" content="Explore the docs for PolinaOS: AI-powered coordination engine for Web3." />
+          <meta name="twitter:image" content="https://polinaos.com/polina-og.png" />
+      </Head>
     <main className="bg-black text-white min-h-screen font-sans">
       <Navbar onWaitlistClick={() => setShowWaitlist(true)} />
       <div className="prose prose-invert max-w-4xl mx-auto px-6 py-20 prose-p:text-gray-300 prose-headings:text-white prose-a:text-[#64e3a1]">
@@ -178,5 +192,6 @@ export default function DocsPage() {
 
       <WaitlistModal open={showWaitlist} onClose={() => setShowWaitlist(false)} />
     </main>
+    </>
   );
 }
