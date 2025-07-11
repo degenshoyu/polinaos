@@ -3,13 +3,17 @@ import Navbar from "../components/Navbar";
 import FeatureBlock from "../components/FeatureBlock";
 import VisionBlock from "../components/VisionBlock";
 import RoadmapBlock from "../components/RoadmapBlock";
+import WaitlistModal from "../components/WaitlistModal";
 import { Bot, Radar, CheckCheck, Vault } from "lucide-react";
+import { useState } from "react";
 
 export default function HomePage() {
+  const [showWaitlist, setShowWaitlist] = useState(false);
+
   return (
     <main className="min-h-screen px-4 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white font-sans">
       {/* Header */}
-      <Navbar />
+      <Navbar onWaitlistClick={() => setShowWaitlist(true)} />
 
       {/* Hero */}
       <section className="relative bg-gradient-to-br from-black via-gray-900 to-gray-800 overflow-hidden">
@@ -26,10 +30,10 @@ export default function HomePage() {
               building your product.
             </p>
             <a
-              href="#get-started"
-              className="bg-[#27a567] hover:bg-[#239e5d] text-white font-semibold px-8 py-3 rounded-full shadow hover:scale-105 transition"
+              onClick={() => setShowWaitlist(true)}
+              className="cursor-pointer bg-[#27a567] hover:bg-[#239e5d] text-white font-semibold px-8 py-3 rounded-full shadow hover:scale-105 transition"
             >
-              Join Whitelist
+              Join Waitlist
             </a>
           </div>
 
@@ -46,6 +50,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <WaitlistModal
+        open={showWaitlist}
+        onClose={() => setShowWaitlist(false)}
+      />
 
       {/* Features */}
       <section

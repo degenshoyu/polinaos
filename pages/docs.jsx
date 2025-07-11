@@ -1,4 +1,6 @@
+import { useState } from "react";
 import Navbar from "../components/Navbar";
+import WaitlistModal from "../components/WaitlistModal";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -137,9 +139,11 @@ PolinaOS is forming its **founding circle**. Whether you’re a:
 `;
 
 export default function DocsPage() {
+  const [showWaitlist, setShowWaitlist] = useState(false);
+
   return (
     <main className="bg-black text-white min-h-screen font-sans">
-      <Navbar />
+      <Navbar onWaitlistClick={() => setShowWaitlist(true)} />
       <div className="prose prose-invert max-w-4xl mx-auto px-6 py-20 prose-p:text-gray-300 prose-headings:text-white prose-a:text-[#64e3a1]">
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
@@ -159,11 +163,20 @@ export default function DocsPage() {
                 </code>
               );
             },
+            button: ({ node, className, ...props }) => (
+              <button
+                className={`${className} bg-[#27a567] hover:bg-[#239e5d] text-white font-semibold px-6 py-2 rounded-full shadow transition hover:scale-105`}
+                onClick={() => setShowWaitlist(true)}
+                {...props}
+              />
+            ),
           }}
         >
           {markdown}
         </ReactMarkdown>
       </div>
+
+      <WaitlistModal open={showWaitlist} onClose={() => setShowWaitlist(false)} />
     </main>
   );
 }

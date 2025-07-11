@@ -4,7 +4,7 @@ import NavLinks from "./NavLinks";
 import MobileMenu from "./MobileMenu";
 import useScrollSpy from "./useScrollSpy";
 
-export default function Navbar() {
+export default function Navbar({ onWaitlistClick }) {
   const active = useScrollSpy();
 
   return (
@@ -31,17 +31,17 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         <div className="md:hidden">
-          <MobileMenu active={active} />
+          <MobileMenu active={active} onWaitlistClick={onWaitlistClick} />
         </div>
 
         {/* CTA Button */}
         <div className="hidden md:flex items-center space-x-4">
-          <a
-            href="#join"
+          <button
+            onClick={onWaitlistClick}
             className="px-5 py-2 bg-[#27a567] hover:bg-[#239e5d] text-white text-sm rounded-full shadow-md transition"
           >
-            Join Whitelist
-          </a>
+            Join Waitlist
+          </button>
         </div>
       </div>
     </header>
