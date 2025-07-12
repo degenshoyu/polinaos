@@ -1,0 +1,15 @@
+{
+  "docs": {
+    "type": "page",
+    "title": "Docs",
+    "theme": {
+      "layout": "default"
+    }
+  },
+  "introduction": {
+    "title": "Introduction"
+  },
+  "modules": {
+    "title": "Core Modules"
+  }
+}
