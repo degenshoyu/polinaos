@@ -14,88 +14,93 @@ export default function DemoPage() {
         <title>Try Polina AI – Project Analysis</title>
       </Head>
 
-      <main className="min-h-screen px-4 bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white font-sans">
+      <main className="overflow-x-hidden w-full min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 text-white font-sans">
         {/* NavBar */}
         <Navbar />
 
-        {/* Polina + Cards side by side */}
-        <section className="flex flex-col lg:flex-row justify-center gap-12 mb-24 px-4">
-          <ProjectAnalysisCard onTweetCountUpdate={setTweetCount} onAnalysisResult={setAnalysis} />
-          <PolinaAnalysisCard geminiText={analysis?.summary} />
-        </section>
+        <div className="max-w-7xl mx-auto px-4">
 
-    <section className="max-w-6xl mx-auto px-4 mb-24">
-  <h3 className="text-2xl font-bold text-white mb-6">🚀 Full Workflow Preview</h3>
+          {/* Polina + Cards side by side */}
+          <section className="flex flex-col lg:flex-row gap-y-8 gap-x-6 mb-24">
+            <ProjectAnalysisCard onTweetCountUpdate={setTweetCount} onAnalysisResult={setAnalysis} />
+            <PolinaAnalysisCard geminiText={analysis?.summary} />
+          </section>
 
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    {[
-      {
-        title: "1. Submit Project Info",
-        desc: "Provide name, Twitter & token address.",
-        status: "done",
-      },
-      {
-        title: "2. Fetch Tweets",
-        desc: "Search Twitter mentions using ctScreener.",
-        status: "done",
-      },
-      {
-        title: "3. AI Understanding",
-        desc: "Gemini analyzes tone, topics & trends.",
-        status: "done",
-      },
-      {
-        title: "4. Add Extra Context",
-        desc: "Let the team add goals & narratives.",
-        status: "locked",
-      },
-      {
-        title: "5. Generate Community Tasks",
-        desc: "Tweet with hashtags or quote tweets.",
-        status: "locked",
-      },
-      {
-        title: "6. Detect Completion",
-        desc: "Scan Twitter to find users who joined.",
-        status: "locked",
-      },
-      {
-        title: "7. Reward Distribution",
-        desc: "Score based on impact. Assign rewards.",
-        status: "locked",
-      },
-      {
-        title: "8. Claim Portal",
-        desc: "Users link wallet & claim rewards.",
-        status: "locked",
-      }
-    ].map((step, i) => (
-      <div
-        key={i}
-        className={`rounded-2xl border p-4 shadow-xl transition duration-300 ${
-          step.status === "done"
-            ? "border-green-400/30 bg-green-500/5"
-            : "border-white/10 bg-white/5 opacity-60"
-        }`}
-      >
-        <div className="flex items-center gap-3 mb-3">
-          <div className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-bold ${
-            step.status === "done" ? "bg-green-500 text-black" : "bg-gray-700 text-white"
-          }`}>
-            {step.status === "done" ? "✓" : i + 1}
-          </div>
-          <h4 className="font-semibold text-white text-sm">{step.title}</h4>
+          {/* Full Workflow Preview */}
+          <section className="w-full max-w-6xl mx-auto mb-24">
+            <h3 className="text-2xl font-bold text-white mb-6">🚀 Full Workflow Preview</h3>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                {
+                  title: "1. Submit Project Info",
+                  desc: "Provide name, Twitter & token address.",
+                  status: "done",
+                },
+                {
+                  title: "2. Fetch Tweets",
+                  desc: "Search Twitter mentions using ctScreener.",
+                  status: "done",
+                },
+                {
+                  title: "3. AI Understanding",
+                  desc: "Gemini analyzes tone, topics & trends.",
+                  status: "done",
+                },
+                {
+                  title: "4. Add Extra Context",
+                  desc: "Let the team add goals & narratives.",
+                  status: "locked",
+                },
+                {
+                  title: "5. Generate Community Tasks",
+                  desc: "Tweet with hashtags or quote tweets.",
+                  status: "locked",
+                },
+                {
+                  title: "6. Detect Completion",
+                  desc: "Scan Twitter to find users who joined.",
+                  status: "locked",
+                },
+                {
+                  title: "7. Reward Distribution",
+                  desc: "Score based on impact. Assign rewards.",
+                  status: "locked",
+                },
+                {
+                  title: "8. Claim Portal",
+                  desc: "Users link wallet & claim rewards.",
+                  status: "locked",
+                }
+              ].map((step, i) => (
+                <div
+                  key={i}
+                  className={`rounded-2xl border p-4 shadow-xl transition duration-300 ${
+                    step.status === "done"
+                      ? "border-green-400/30 bg-green-500/5"
+                      : "border-white/10 bg-white/5 opacity-60"
+                  }`}
+                >
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-bold ${
+                      step.status === "done" ? "bg-green-500 text-black" : "bg-gray-700 text-white"
+                    }`}>
+                      {step.status === "done" ? "✓" : i + 1}
+                    </div>
+                    <h4 className="font-semibold text-white text-sm">{step.title}</h4>
+                  </div>
+                  <p className="text-xs text-gray-400">{step.desc}</p>
+                  {step.status === "locked" && (
+                    <div className="mt-3 inline-block px-2 py-1 text-[10px] font-bold bg-yellow-600/10 text-yellow-400 border border-yellow-400/30 rounded">
+                      🔒 Coming Soon
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+
         </div>
-        <p className="text-xs text-gray-400">{step.desc}</p>
-        {step.status === "locked" && (
-          <div className="mt-3 inline-block px-2 py-1 text-[10px] font-bold bg-yellow-600/10 text-yellow-400 border border-yellow-400/30 rounded">
-            🔒 Coming Soon
-          </div>
-        )}
-      </div>
-    ))}
-  </div>
-</section>
 
         {/* Footer */}
         <footer className="text-center text-sm text-gray-500 pb-10">

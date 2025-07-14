@@ -10,7 +10,7 @@ export default function PolinaAnalysisCard({ geminiText }) {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <div className="p-6 w-full max-w-3xl rounded-2xl shadow-2xl bg-gradient-to-br from-[#101c1b] via-[#0c1111] to-[#0a0f0e] flex flex-col border border-white/5 backdrop-blur-sm">
+    <div className="p-6 w-full lg:w-[48%] rounded-2xl shadow-2xl bg-gradient-to-br from-[#101c1b] via-[#0c1111] to-[#0a0f0e] flex flex-col border border-white/5 backdrop-blur-sm">
       <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-[#2fd480] via-[#3ef2ac] to-[#27a567] text-transparent bg-clip-text drop-shadow-sm">
         Polina · AI Understanding
       </h2>
