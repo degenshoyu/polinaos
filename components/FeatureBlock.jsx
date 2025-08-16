@@ -1,5 +1,5 @@
 // components/FeatureBlock.jsx
-// Lotus-style petals using cubic Bezier paths. Comments in English.
+// Lotus with pink-white skin (petals + corona colors).
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -9,55 +9,34 @@ export default function FeatureBlock({
   label,
   description,
   reverse = false,
-
-  // —— Lotus config (customizable) ——
-  petals = 12,        // number of petals
-  petalRadius = 96,   // distance from center to petal center
-  petalWidth = 22,    // visual width of a petal (approx)
-  petalLength = 64,   // visual length of a petal (approx)
-  startAngle = -90,   // -90 = top
-  // Petal shape tuning (0~1): higher = sharper tip, rounder base
+  outerPetals = 12,
+  innerPetals = 12,
+  outerRadius = 80,
+  outerWidth = 34,
+  outerLength = 72,
+  innerRadius = 60,
+  innerWidth = 28,
+  innerLength = 56,
+  startAngle = -90,
   tipSharpness = 0.85,
-  baseRoundness = 0.35,
+  baseRoundness = 0.5,
+  baseInsetOuter = 8,
+  baseInsetInner = 10,
+  ringPx = 160
 }) {
   const containerClass = reverse ? "md:flex-row-reverse" : "md:flex-row";
+  const [blossomed, setBlossomed] = useState(false);
 
-  // Persist once revealed
-  const [petalsShown, setPetalsShown] = useState(false);
-
-  // Precompute petal placement & animation delays
-  const petalsData = useMemo(() => {
-    const arr = [];
-    for (let i = 0; i < petals; i++) {
-      const deg = startAngle + (360 / petals) * i;
-      const rad = (deg * Math.PI) / 180;
-      // Place each petal center on a circle (SVG coords center = (100,100))
-      const cx = 100 + petalRadius * Math.cos(rad);
-      const cy = 100 + petalRadius * Math.sin(rad);
-      // We'll draw the petal around (0,0) pointing up, then transform to position+rotation
-      const transform = `translate(${cx} ${cy}) rotate(${deg + 90})`;
-      const delayMs = i * 60; // stagger
-      arr.push({ i, cx, cy, transform, delayMs });
-    }
-    return arr;
-  }, [petals, petalRadius, startAngle]);
-
-  // Build a lotus-like petal path around (0,0), pointing up.
-  // tip at (0, -L); base near (0, 0). Symmetric left/right.
-  const buildPetalPath = (W, L, tipK = 0.85, baseK = 0.35) => {
-    // Control points:
+  // --- Build a lotus-like petal path ---
+  const buildPetalPath = (W, L, tipK, baseK) => {
     const tipY = -L;
     const leftX = -W / 2;
     const rightX = W / 2;
+    const cxOuter = W * 0.6;
+    const cyOuter = L * (1 - tipK);
+    const cxInner = W * 0.38;
+    const cyInner = L * (1 - baseK);
 
-    // How far the outer curve bulges sideways & how quickly it returns to base
-    const cxOuter = W * 0.55;         // sideways bulge
-    const cyOuter = L * (1 - tipK);   // how close to the tip the curve control is
-    const cxInner = W * 0.35;         // inner curve towards base
-    const cyInner = L * (1 - baseK);  // base roundness
-
-    // Path (closed):
-    // Move to tip, curve down right to base, then up left back to tip (forming a teardrop / lotus shape)
     return `
       M 0 ${-L}
       C ${rightX} ${tipY + cyOuter}, ${cxInner} ${-L + cyInner}, 0 0
@@ -66,10 +45,37 @@ export default function FeatureBlock({
     `;
   };
 
-  // Precompute petal paths once
-  const petalPath = useMemo(
-    () => buildPetalPath(petalWidth, petalLength, tipSharpness, baseRoundness),
-    [petalWidth, petalLength, tipSharpness, baseRoundness]
+  const pathOuter = useMemo(
+    () => buildPetalPath(outerWidth, outerLength, tipSharpness, baseRoundness),
+    [outerWidth, outerLength, tipSharpness, baseRoundness]
+  );
+  const pathInner = useMemo(
+    () => buildPetalPath(innerWidth, innerLength, tipSharpness, baseRoundness),
+    [innerWidth, innerLength, tipSharpness, baseRoundness]
+  );
+
+  // Compute petal positions
+  const computeRing = (count, radius, inset, angleOffset = 0) => {
+    const arr = [];
+    for (let i = 0; i < count; i++) {
+      const deg = startAngle + angleOffset + (360 / count) * i;
+      const rad = (deg * Math.PI) / 180;
+      const cx = 100 + radius * Math.cos(rad);
+      const cy = 100 + radius * Math.sin(rad);
+      const transform = `translate(${cx} ${cy}) rotate(${deg + 90}) translate(0 ${-inset})`;
+      const delayMs = i * 50;
+      arr.push({ i, transform, delayMs });
+    }
+    return arr;
+  };
+
+  const outerData = useMemo(
+    () => computeRing(outerPetals, outerRadius, baseInsetOuter, 0),
+    [outerPetals, outerRadius, baseInsetOuter, startAngle]
+  );
+  const innerData = useMemo(
+    () => computeRing(innerPetals, innerRadius, baseInsetInner, 180 / innerPetals),
+    [innerPetals, innerRadius, baseInsetInner, startAngle]
   );
 
   return (
@@ -82,7 +88,7 @@ export default function FeatureBlock({
     >
       {/* Text Section */}
       <div className="flex-1">
-        <p className="uppercase text-sm text-[#64e3a1] font-medium tracking-wide mb-3">
+        <p className="uppercase text-sm text-pink-400 font-medium tracking-wide mb-3">
           {label}
         </p>
         <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
@@ -95,114 +101,95 @@ export default function FeatureBlock({
       <div className="flex-1 flex justify-center md:justify-end">
         <div
           className="relative group flex items-center justify-center"
-          style={{ width: 224, height: 224 }} // w-56 h-56 equivalent
-          onMouseEnter={() => setPetalsShown(true)} // reveal once, persist
+          style={{ width: 224, height: 224 }}
+          onMouseEnter={() => setBlossomed(true)}
         >
-          {/* Glowing animated background ring (below petals) */}
+          {/* Background glow (pink-white) */}
           <motion.div
-            className="absolute rounded-full bg-gradient-to-br from-[#64e3a1] to-transparent opacity-25 blur-2xl"
-            style={{ width: 160, height: 160 }} // w-40 h-40
-            animate={{ opacity: petalsShown ? 0.5 : [0.25, 0.35, 0.25] }}
-            transition={{ duration: 2, repeat: petalsShown ? 0 : Infinity, ease: "easeInOut" }}
+            className="absolute rounded-full bg-gradient-to-br from-pink-200 to-transparent opacity-25 blur-2xl"
+            style={{ width: ringPx, height: ringPx }}
+            animate={{ opacity: blossomed ? 0.55 : [0.25, 0.38, 0.25] }}
+            transition={{ duration: 2, repeat: blossomed ? 0 : Infinity, ease: "easeInOut" }}
           />
 
-          {/* Lotus petals (SVG). Explicit positions, robust across SSR/hydration. */}
+          {/* Petals */}
           <svg
             viewBox="0 0 200 200"
             className="absolute pointer-events-none"
-            style={{ width: 340, height: 340, overflow: "visible", zIndex: 20 }}
+            style={{ width: 360, height: 360, overflow: "visible", zIndex: 20 }}
           >
             <defs>
-              {/* Soft fill + highlight */}
-              <radialGradient id="lotusFill" cx="50%" cy="40%" r="70%">
-                <stop offset="0%" stopColor="#64e3a1" stopOpacity="0.55" />
-                <stop offset="70%" stopColor="#64e3a1" stopOpacity="0.18" />
-                <stop offset="100%" stopColor="#64e3a1" stopOpacity="0" />
+              {/* Petal fill: white center → light pink edge */}
+              <radialGradient id="lotusFillPink" cx="50%" cy="40%" r="70%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.9" />
+                <stop offset="60%" stopColor="#ffe4ec" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#f9a8d4" stopOpacity="0.65" />
               </radialGradient>
-              <linearGradient id="lotusStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#64e3a1" stopOpacity="0.85" />
-                <stop offset="100%" stopColor="#64e3a1" stopOpacity="0.15" />
+              {/* Stroke: soft pink */}
+              <linearGradient id="lotusStrokePink" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f9a8d4" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#f9a8d4" stopOpacity="0.1" />
               </linearGradient>
-              {/* Inner highlight gradient */}
-              <linearGradient id="lotusInner" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.35" />
+              {/* Inner highlight */}
+              <linearGradient id="lotusInnerWhite" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.4" />
                 <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
               </linearGradient>
             </defs>
 
-            {petalsData.map(({ i, transform, delayMs }) => {
-              const animStyle = petalsShown
-                ? {
-                    opacity: 0,
-                    transformOrigin: "0px 0px", // inside group after translate/rotate
-                    animation: `petalIn 420ms ease-out ${delayMs}ms forwards`,
-                  }
+            {[...outerData, ...innerData].map(({ i, transform, delayMs }) => {
+              const anim = blossomed
+                ? { opacity: 0, transformOrigin: "0px 0px", animation: `petalIn 400ms ease-out ${delayMs}ms forwards` }
                 : { opacity: 0 };
-
+              const path = i < outerData.length ? pathOuter : pathInner;
               return (
                 <g key={i} transform={transform}>
-                  {/* Back glow (slightly larger) */}
-                  <path
-                    d={petalPath}
-                    fill="url(#lotusFill)"
-                    style={animStyle}
-                    transform="scale(1.06)"
-                  />
-                  {/* Main body */}
-                  <path
-                    d={petalPath}
-                    fill="url(#lotusFill)"
-                    stroke="url(#lotusStroke)"
-                    strokeWidth="0.7"
-                    style={animStyle}
-                  />
-                  {/* Inner highlight (gives lotus sheen) */}
-                  <path
-                    d={petalPath}
-                    fill="url(#lotusInner)"
-                    style={{ ...animStyle, transform: "scale(0.82) translateY(4px)" }}
-                  />
-                  {/* Midrib (vein) */}
-                  <line
-                    x1="0"
-                    y1={-petalLength}
-                    x2="0"
-                    y2="0"
-                    stroke="#ffffff"
-                    strokeOpacity="0.18"
-                    strokeWidth="0.8"
-                    style={animStyle}
-                  />
+                  <path d={path} fill="url(#lotusFillPink)" style={anim} />
+                  <path d={path} fill="url(#lotusFillPink)" stroke="url(#lotusStrokePink)" strokeWidth="0.8" style={anim} />
+                  <path d={path} fill="url(#lotusInnerWhite)" style={{ ...anim, transform: "scale(0.78) translateY(3px)" }} />
                 </g>
               );
             })}
           </svg>
 
-          {/* Center Icon Circle (above background ring, below petals visually for contrast) */}
+          {/* Center circle for icon */}
           <div
-            className="relative border border-[#64e3a1]/40 bg-[#64e3a1]/10 backdrop-blur-sm flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_26px_#64e3a1]"
-            style={{ width: 160, height: 160, borderRadius: 9999, zIndex: 10 }}
+            className="relative border border-pink-200/40 bg-pink-100/10 backdrop-blur-sm flex items-center justify-center transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_0_26px_#f9a8d4]"
+            style={{ width: ringPx, height: ringPx, borderRadius: 9999, zIndex: 10 }}
           >
             {icon}
           </div>
 
-          {/* Thin outline ring */}
+          {/* Corona / flower heart (yellow → orange-red gradient) */}
+          <div
+            className="absolute"
+            style={{
+              width: ringPx * 0.28,
+              height: ringPx * 0.28,
+              borderRadius: 9999,
+              zIndex: 15,
+              background:
+                "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, rgba(255,220,150,0.85) 40%, rgba(255,120,90,0.85) 70%, rgba(255,80,80,0.9) 90%)",
+            }}
+          />
+
+          {/* Outline */}
           <motion.div
-            className="absolute border border-[#64e3a1]/30"
-            style={{ width: 160, height: 160, borderRadius: 9999, zIndex: 0 }}
-            animate={{ scale: petalsShown ? 1.02 : [1, 1.03, 1] }}
-            transition={{ duration: 2, repeat: petalsShown ? 0 : Infinity, ease: "easeInOut" }}
+            className="absolute border border-pink-200/30"
+            style={{ width: ringPx, height: ringPx, borderRadius: 9999, zIndex: 0 }}
+            animate={{ scale: blossomed ? 1.02 : [1, 1.03, 1] }}
+            transition={{ duration: 2, repeat: blossomed ? 0 : Infinity, ease: "easeInOut" }}
           />
         </div>
       </div>
 
-      {/* Global keyframes for robust SVG animation */}
       <style jsx global>{`
         @keyframes petalIn {
-          0%   { opacity: 0; transform: scale(0.6) translateY(10px); }
-          100% { opacity: 1; transform: scale(1) translateY(0); }
+          0%   { opacity: 0; transform: scale(0.65) translateY(10px); }
+          100% { opacity: 1; transform: scale(1)    translateY(0); }
         }
       `}</style>
     </motion.div>
   );
 }
+
