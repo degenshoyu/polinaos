@@ -4,27 +4,17 @@ import { motion } from "framer-motion";
 
 export default function FeatureBlock({ icon, title, label, description, reverse = false }) {
   const containerClass = reverse ? "md:flex-row-reverse" : "md:flex-row";
-
-  // Persist petals once revealed
   const [petalsShown, setPetalsShown] = useState(false);
 
-  // Petal angles around the circle (lotus-like symmetry)
-  const PETAL_ANGLES = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
+  // ===== Lotus config =====
+  const PETALS = 12;        // 渲染全部花瓣
+  const START_ANGLE = -90;  // 顶部开始
+  const PETAL_RADIUS = 92;  // 花瓣离圆心的距离 (调大=>更靠外)
+  const PETAL_RX = 11;      // 花瓣横向半径
+  const PETAL_RY = 26;      // 花瓣纵向半径
+  // ========================
 
-  // Framer Motion variants for staggered blossom effect
-  const petalsVariants = {
-    hidden: { opacity: 0, scale: 0.6 },
-    shown: {
-      opacity: 1,
-      scale: 1,
-      transition: { staggerChildren: 0.05, when: "beforeChildren", duration: 0.45, ease: "easeOut" },
-    },
-  };
-
-  const petalVariants = {
-    hidden: { opacity: 0, scale: 0.4, y: 10 },
-    shown: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
-  };
+  const angles = Array.from({ length: PETALS }, (_, i) => START_ANGLE + (360 / PETALS) * i);
 
   return (
     <motion.div
@@ -49,24 +39,20 @@ export default function FeatureBlock({ icon, title, label, description, reverse 
       <div className="flex-1 flex justify-center md:justify-end">
         <div
           className="relative group w-56 h-56 flex items-center justify-center"
-          onMouseEnter={() => setPetalsShown(true)} // once triggered, petals persist
+          onMouseEnter={() => setPetalsShown(true)} // 触发一次后常驻
         >
-          {/* Glowing animated background ring (smaller) */}
+          {/* 背景呼吸光 (在最底层) */}
           <motion.div
-            className="absolute w-40 h-40 rounded-full bg-gradient-to-br from-[#64e3a1] to-transparent opacity-25 blur-2xl"
+            className="absolute w-40 h-40 rounded-full bg-gradient-to-br from-[#64e3a1] to-transparent opacity-25 blur-2xl z-0"
             animate={{ opacity: petalsShown ? 0.5 : [0.25, 0.35, 0.25] }}
             transition={{ duration: 2, repeat: petalsShown ? 0 : Infinity, ease: "easeInOut" }}
           />
 
-          {/* Lotus petals (SVG so shapes are crisp) */}
-          <motion.svg
+          {/* 花瓣: 放在圆圈之上，保证不被遮挡 */}
+          <svg
             viewBox="0 0 200 200"
-            className="absolute w-[260px] h-[260px] pointer-events-none"
-            variants={petalsVariants}
-            initial="hidden"
-            animate={petalsShown ? "shown" : "hidden"}
+            className="absolute w-[300px] h-[300px] overflow-visible pointer-events-none z-20"
           >
-            {/* Gradient defs */}
             <defs>
               <radialGradient id="lotusFill" cx="50%" cy="40%" r="70%">
                 <stop offset="0%" stopColor="#64e3a1" stopOpacity="0.55" />
@@ -79,43 +65,43 @@ export default function FeatureBlock({ icon, title, label, description, reverse 
               </linearGradient>
             </defs>
 
-            {/* Draw petals as rotated ellipses around center (100,100) */}
-            {PETAL_ANGLES.map((deg, i) => (
+            {angles.map((deg, i) => (
               <motion.g
                 key={deg}
-                variants={petalVariants}
+                initial={{ opacity: 0, scale: 0.6, y: 10 }}
+                animate={petalsShown ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.6, y: 10 }}
+                transition={{ duration: 0.45, ease: "easeOut", delay: petalsShown ? i * 0.06 : 0 }}
                 transform={`rotate(${deg} 100 100)`}
               >
-                {/* Soft glow behind each petal */}
+                {/* 以 (100,100) 为圆心，沿半径向上放置花瓣 */}
                 <ellipse
                   cx="100"
-                  cy="54"
-                  rx="12"
-                  ry="26"
+                  cy={100 - PETAL_RADIUS}
+                  rx={PETAL_RX + 1}
+                  ry={PETAL_RY + 2}
                   fill="url(#lotusFill)"
                 />
-                {/* Petal body with subtle stroke */}
                 <ellipse
                   cx="100"
-                  cy="54"
-                  rx="11"
-                  ry="24"
+                  cy={100 - PETAL_RADIUS}
+                  rx={PETAL_RX}
+                  ry={PETAL_RY}
                   fill="url(#lotusFill)"
                   stroke="url(#lotusStroke)"
                   strokeWidth="0.6"
                 />
               </motion.g>
             ))}
-          </motion.svg>
+          </svg>
 
-          {/* Icon Circle (smaller, with hover pop) */}
+          {/* 中心圆圈（位于花瓣下方还是上方取决于 z-index；这里让花瓣在上面） */}
           <div className="relative z-10 w-40 h-40 rounded-full border border-[#64e3a1]/40 bg-[#64e3a1]/10 backdrop-blur-sm flex items-center justify-center transition-transform group-hover:scale-105 group-hover:shadow-[0_0_26px_#64e3a1] duration-300">
             {icon}
           </div>
 
-          {/* Thin ring outline to emphasize the circle */}
+          {/* 细描边环 */}
           <motion.div
-            className="absolute w-40 h-40 rounded-full border border-[#64e3a1]/30"
+            className="absolute w-40 h-40 rounded-full border border-[#64e3a1]/30 z-0"
             animate={{ scale: petalsShown ? 1.02 : [1, 1.03, 1] }}
             transition={{ duration: 2, repeat: petalsShown ? 0 : Infinity, ease: "easeInOut" }}
           />
