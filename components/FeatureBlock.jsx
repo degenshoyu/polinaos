@@ -9,17 +9,17 @@ export default function FeatureBlock({
   label,
   description,
   reverse = false,
-  outerPetals = 12,
-  innerPetals = 12,
-  outerRadius = 60,
-  outerWidth = 34,
-  outerLength = 72,
-  innerRadius = 30,
-  innerWidth = 28,
-  innerLength = 56,
+  outerPetals = 8,
+  innerPetals = 8,
+  outerRadius = 35,
+  outerWidth = 35,
+  outerLength = 55,
+  innerRadius = 15,
+  innerWidth = 30,
+  innerLength = 40,
   startAngle = -90,
-  tipSharpness = 0.85,
-  baseRoundness = 0.5,
+  tipSharpness = 0.6,
+  baseRoundness = 0.2,
   baseInsetOuter = 0,
   baseInsetInner = 0,
   ringPx = 160
@@ -159,19 +159,6 @@ export default function FeatureBlock({
           >
             {icon}
           </div>
-
-          {/* Corona / flower heart (yellow → orange-red gradient) */}
-          <div
-            className="absolute"
-            style={{
-              width: ringPx * 0.28,
-              height: ringPx * 0.28,
-              borderRadius: 9999,
-              zIndex: 15,
-              background:
-                "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, rgba(255,220,150,0.85) 40%, rgba(255,120,90,0.85) 70%, rgba(255,80,80,0.9) 90%)",
-            }}
-          />
 
           {/* Outline */}
           <motion.div
