@@ -83,7 +83,7 @@ export default function MobileMenu({ active = "", onWaitlistClick }) {
               </nav>
               <div className="mt-8">
                 <Link
-                  href="https://docs.polinaos.com"
+                  href="https://demo.polinaos.com"
                   onClick={() => setIsOpen(false)}
                   className="block text-center w-full bg-[#27a567] hover:bg-[#239e5d] text-white text-sm font-semibold py-3 rounded-full shadow-md transition"
                 >

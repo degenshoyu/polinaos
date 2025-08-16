@@ -37,7 +37,7 @@ export default function Navbar({ onWaitlistClick }) {
         {/* CTA Button */}
         <div className="hidden md:flex items-center space-x-4">
           <Link
-            href="https://docs.polinaos.com"
+            href="https://demo.polinaos.com"
             className="px-5 py-2 bg-[#27a567] hover:bg-[#239e5d] text-white text-sm rounded-full shadow-md transition"
           >
             Try Demo
