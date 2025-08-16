@@ -11,17 +11,17 @@ export default function FeatureBlock({
   reverse = false,
   outerPetals = 12,
   innerPetals = 12,
-  outerRadius = 80,
+  outerRadius = 60,
   outerWidth = 34,
   outerLength = 72,
-  innerRadius = 60,
+  innerRadius = 30,
   innerWidth = 28,
   innerLength = 56,
   startAngle = -90,
   tipSharpness = 0.85,
   baseRoundness = 0.5,
-  baseInsetOuter = 8,
-  baseInsetInner = 10,
+  baseInsetOuter = 0,
+  baseInsetInner = 0,
   ringPx = 160
 }) {
   const containerClass = reverse ? "md:flex-row-reverse" : "md:flex-row";
@@ -192,4 +192,3 @@ export default function FeatureBlock({
     </motion.div>
   );
 }
-
