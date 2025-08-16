@@ -196,7 +196,6 @@ export default function ProjectAnalysisCard({ onTweetCountUpdate, onAnalysisResu
       {/* input fields */}
       <div className="mt-auto pt-4 space-y-3">
         <div className="flex gap-2">
-          <input className="flex-1 px-3 py-2 bg-[#0d0d0d] border border-[#333] focus:ring-2 focus:ring-[#64e3a1] rounded-md text-white placeholder:text-gray-500 text-sm" placeholder="Project name" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
           <input className="flex-1 px-3 py-2 bg-[#0d0d0d] border border-[#333] focus:ring-2 focus:ring-[#64e3a1] rounded-md text-white placeholder:text-gray-500 text-sm" placeholder="Twitter handle (e.g. @project)" value={twitterHandle} onChange={(e) => setTwitterHandle(e.target.value)} />
         </div>
         <input className="w-full px-3 py-2 bg-[#0d0d0d] border border-[#333] focus:ring-2 focus:ring-[#64e3a1] rounded-md text-white placeholder:text-gray-500 text-sm" placeholder="Token contract address (optional)" value={contractAddress} onChange={(e) => setContractAddress(e.target.value)} />
