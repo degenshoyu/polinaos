@@ -37,6 +37,14 @@ export default function Navbar({ onWaitlistClick }) {
         {/* CTA Button */}
         <div className="hidden md:flex items-center space-x-4">
           <Link
+            href="https://pump.fun/coin/9aunSe15ifnm8LVerpe2VhznJJuYxUzZtxXHjGMapump"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2 bg-[#f59e0b] hover:bg-[#d97706] text-white text-sm rounded-full shadow-md transition"
+          >
+            Buy $POLINA
+          </Link>
+          <Link
             href="https://demo.polinaos.com"
             className="px-5 py-2 bg-[#27a567] hover:bg-[#239e5d] text-white text-sm rounded-full shadow-md transition"
           >
