@@ -41,7 +41,7 @@ export default function CommunityPage() {
             </a>
 
             <a
-              href="https://pump.fun/coin/9aunSe15ifnm8LVerpe2VhznJJuYxUzZtxXHjGMapump"
+              href="https://pump.fun/"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#f59e0b] hover:bg-[#d97706] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
