@@ -23,7 +23,7 @@ export default function CommunityPage() {
 
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
             <a
-              href="https://t.me/PolinaAIOS"
+              href="https://t.me/PolinaOSAI"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#27a567] hover:bg-[#239e5d] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
