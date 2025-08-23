@@ -37,7 +37,7 @@ export default function Navbar({ onWaitlistClick }) {
         {/* CTA Button */}
         <div className="hidden md:flex items-center space-x-4">
           <Link
-            href="https://pump.fun/"
+            href="https://pump.fun/coin/HDcnhYb3SanahSfipjoRp2MT37q3H7jpjfsCzeGBpump"
             target="_blank"
             rel="noopener noreferrer"
             className="px-5 py-2 bg-[#f59e0b] hover:bg-[#d97706] text-white text-sm rounded-full shadow-md transition"
