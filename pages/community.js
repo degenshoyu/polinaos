@@ -32,7 +32,7 @@ export default function CommunityPage() {
             </a>
 
             <a
-              href="https://x.com/PolinaAIOS"
+              href="https://x.com/PolinaOSAI"
               target="_blank"
               rel="noopener noreferrer"
               className="bg-[#1d9bf0] hover:bg-[#1a8cd8] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
