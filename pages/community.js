@@ -2,7 +2,7 @@
 import Navbar from "../components/Navbar";
 import Head from "next/head";
 import { FaTelegramPlane, FaTwitter, FaGithub } from "react-icons/fa";
-import { SiGoogledrive, SiPumpdotfun } from "react-icons/si";
+import { SiGoogledrive, SiBuymeacoffee } from "react-icons/si";
 
 export default function CommunityPage() {
   return (
@@ -48,7 +48,7 @@ export default function CommunityPage() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 bg-[#f59e0b] hover:bg-[#d97706] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
             >
-              <SiPumpdotfun size={20} /> Buy $POLINA
+              <SiBuymeacoffee size={20} /> Buy $POLINA
             </a>
 
             <a
