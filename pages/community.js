@@ -1,6 +1,8 @@
 // pages/community.js
 import Navbar from "../components/Navbar";
 import Head from "next/head";
+import { FaTelegramPlane, FaTwitter, FaGithub } from "react-icons/fa";
+import { SiGoogledrive, SiPumpdotfun } from "react-icons/si";
 
 export default function CommunityPage() {
   return (
@@ -21,32 +23,50 @@ export default function CommunityPage() {
             shaping the future of AI-powered crypto coordination.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-6">
             <a
               href="https://t.me/PolinaOSAI"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#27a567] hover:bg-[#239e5d] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
+              className="flex items-center gap-2 bg-[#27a567] hover:bg-[#239e5d] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
             >
-              Join Telegram
+              <FaTelegramPlane size={20} /> Join Telegram
             </a>
 
             <a
               href="https://x.com/PolinaAIOS"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#1d9bf0] hover:bg-[#1a8cd8] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
+              className="flex items-center gap-2 bg-[#1d9bf0] hover:bg-[#1a8cd8] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
             >
-              Follow on Twitter
+              <FaTwitter size={20} /> Follow on Twitter
             </a>
 
             <a
               href="https://pump.fun/coin/HDcnhYb3SanahSfipjoRp2MT37q3H7jpjfsCzeGBpump"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-[#f59e0b] hover:bg-[#d97706] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
+              className="flex items-center gap-2 bg-[#f59e0b] hover:bg-[#d97706] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
             >
-              Buy $POLINA
+              <SiPumpdotfun size={20} /> Buy $POLINA
+            </a>
+
+            <a
+              href="https://drive.google.com/drive/folders/1tobQ3tHPaXuW1uMNUOLky1_dMB0B59_q?usp=sharing"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-[#9333ea] hover:bg-[#7e22ce] text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
+            >
+              <SiGoogledrive size={20} /> Brand Assets
+            </a>
+
+            <a
+              href="https://github.com/degenshoyu/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-gray-700 hover:bg-gray-600 text-white px-6 py-3 rounded-full font-semibold transition shadow-md"
+            >
+              <FaGithub size={20} /> Dev GitHub
             </a>
           </div>
         </section>
